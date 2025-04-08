@@ -13,7 +13,9 @@ public class FlatDto {
 
     private int cena;
 
-    private boolean sklep;
+    public FlatDto() {
+
+    }
 
     public FlatDto(int metraz, String rozloha, String energetickaNarocnost, String stav, String lokalita, int cena) {
         this.metraz = metraz;
@@ -23,11 +25,6 @@ public class FlatDto {
         this.lokalita = lokalita;
         this.cena = cena;
     }
-
-    public FlatDto() {
-
-    }
-
 
     @Override
     public String toString() {

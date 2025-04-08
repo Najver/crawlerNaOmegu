@@ -60,8 +60,6 @@ public class Parser {
         return "neznamy-kraj";
     }
 
-
-
     private static int getCena(String in) {
         pattern = Pattern.compile("MuiTypography-body1 css-1b1ajfd\">([^K]+)K");
         Matcher matcher = pattern.matcher(in);

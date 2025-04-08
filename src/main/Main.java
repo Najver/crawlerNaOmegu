@@ -17,11 +17,11 @@ public class Main {
     }
 
     public static void gatherLinks() {
-        for (int i = 1; i <= 1500; i++) {
+        for (int i = 1; i <= 500; i++) {
             int finalI = i;
             pool.submit(() -> {
                 try {
-                    Save.saveToFile("estate_links.txt", Parser.parseLinks(Download.downloadWebpage("https://www.sreality.cz/hledani/prodej/byty/jihocesky-kraj,jihomoravsky-kraj,karlovarsky-kraj,kralovehradecky-kraj,liberecky-kraj,moravskoslezsky-kraj,olomoucky-kraj,pardubicky-kraj,plzensky-kraj,praha,stredocesky-kraj,ustecky-kraj,vysocina-kraj,zlinsky-kraj?strana=" + finalI + "&vlastnictvi=osobni")));
+                    Save.saveToFile("links.txt", Parser.parseLinks(Download.downloadWebpage("https://www.sreality.cz/hledani/prodej/byty/jihocesky-kraj,jihomoravsky-kraj,karlovarsky-kraj,kralovehradecky-kraj,liberecky-kraj,moravskoslezsky-kraj,olomoucky-kraj,pardubicky-kraj,plzensky-kraj,praha,stredocesky-kraj,ustecky-kraj,vysocina-kraj,zlinsky-kraj?strana=" + finalI + "&vlastnictvi=osobni")));
                     System.out.println("Saving... " + finalI);
                 } catch (Exception e) {
                     pool.shutdown();
@@ -33,13 +33,13 @@ public class Main {
 
     public static void crawlLinks() {
         try {
-            String[] links = Read.readFileToString("estate_links.txt").split("\n");
-            Save.saveToFile("estate_details.csv", "metraz,rozloha,energeticka_narocnost,stav,lokalita,cena,link\n");
+            String[] links = Read.readFileToString("links.txt").split("\n");
+            Save.saveToFile("estate_data.csv", "metraz,rozloha,energeticka_narocnost,stav,lokalita,cena,link\n");
             for (String link : links) {
                 pool.submit(() -> {
                     try {
                         FlatDto f = Parser.parseFlatDto(Download.downloadWebpage(link));
-                        Save.saveToFile("estate_details.csv", f + "," + link + "\n");
+                        Save.saveToFile("estate_data.csv", f + "," + link + "\n");
                         System.out.println(f);
                     } catch (Exception e) {
                         System.err.println("Failed to parse: " + link + " " + e);
